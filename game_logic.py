@@ -1,4 +1,6 @@
-import random
+# import random
+from minimax import minimax , best_move , check_win
+
 
 board = [
     [" ", " ", " "],
@@ -30,18 +32,28 @@ def initialize_game(game_mode):
         print("Player 2 (" + PLAYER2_SYMBOL + ")")
     display_board()
 
-def check_win(player):
-    """"check all rows , column and main diagonal """
-    for i in range(3):
-        if board[i][0] == board[i][1] == board[i][2] == player:
-            return True
-        if board[0][i] == board[1][i] == board[2][i] == player:
-            return True
-    if board[0][0] == board[1][1] == board[2][2] == player:
-        return True
-    if board[0][2] == board[1][1] == board[2][0] == player:
-        return True
-    return False
+# def check_win(board):
+#     """
+#     Check for a winner or tie on the board.
+#     Returns 'x' if X wins, 'o' if O wins, 'tie' if draw, or None if game ongoing.
+#     """
+#     for i in range(3):
+#         if board[i][0] == board[i][1] == board[i][2] != ' ':
+#             return board[i][0]
+        
+#         if board[0][i] == board[1][i] == board[2][i] != ' ':
+#             return board[0][i]
+        
+#     if board[0][0] == board[1][1] == board[2][2] != ' ':
+#         return board[0][0]
+    
+#     if board[0][2] == board[1][1] == board[2][0] != ' ':
+#         return board[0][2]
+    
+#     for row in board:
+#         if ' ' in row:
+#             return None
+#     return 'tie'
 
 def board_full():
     """check if each board empty or full"""
@@ -72,19 +84,19 @@ def get_player_move(player_symbol="x", player_number=1):
         except ValueError:
             print("Please enter valid numbers.")
 
-def make_ai_move():
-    empty_positions = []
-    for i in range(3):
-        for j in range(3):
-            if board[i][j] == " ":
-                empty_positions.append((i, j))
+# def make_ai_move():
+#     empty_positions = []
+#     for i in range(3):
+#         for j in range(3):
+#             if board[i][j] == " ":
+#                 empty_positions.append((i, j))
 
-    if empty_positions:
-        row, col = random.choice(empty_positions)
-        board[row][col] = AI_SYMBOL
-        print(f"AI places {AI_SYMBOL} at position ({row}, {col})")
-    else:
-        print("No more moves available")
+#     if empty_positions:
+#         row, col = random.choice(empty_positions)
+#         board[row][col] = AI_SYMBOL
+#         print(f"AI places {AI_SYMBOL} at position ({row}, {col})")
+#     else:
+#         print("No more moves available")
 
 
 while True:
