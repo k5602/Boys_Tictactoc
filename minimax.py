@@ -1,9 +1,9 @@
 import math
 
-scores = {  
+scores = {
     'x': -10,   # Player (minimizing)
     'o': 10,    # AI (maximizing)
-    'tie': 0 
+    'tie': 0
 }
 
 def check_win(board):
@@ -11,24 +11,19 @@ def check_win(board):
     Check for a winner or tie on the board.
     Returns 'x' if X wins, 'o' if O wins, 'tie' if draw, or None if game ongoing.
     """
-    # Check rows and columns
     for i in range(3):
-        # Check rows
         if board[i][0] == board[i][1] == board[i][2] != ' ':
             return board[i][0]
-        # Check columns
         if board[0][i] == board[1][i] == board[2][i] != ' ':
             return board[0][i]
-    
-    # Check diagonals
+
     if board[0][0] == board[1][1] == board[2][2] != ' ':
         return board[0][0]
     if board[0][2] == board[1][1] == board[2][0] != ' ':
         return board[0][2]
-    
-    # Check for tie/ongoing game
+
     if any(' ' in row for row in board):
-        return None  # Game still ongoing
+        return None  # Game still ongoing no draw
     return 'tie'
 
 def minimax(board, depth, alpha, beta, is_maximizing):
@@ -40,10 +35,10 @@ def minimax(board, depth, alpha, beta, is_maximizing):
     result = check_win(board)
     if result is not None:
         return scores[result]
-    
+
     # Get available moves
     available_moves = [(i, j) for i in range(3) for j in range(3) if board[i][j] == ' ']
-    
+
     if is_maximizing:
         max_score = -math.inf
         for i, j in available_moves:
@@ -74,7 +69,7 @@ def best_move(board):
     """
     best_score = -math.inf
     move = None
-    
+
     # Try each available move
     for i in range(3):
         for j in range(3):
@@ -82,9 +77,9 @@ def best_move(board):
                 board[i][j] = 'o'  # AI's move
                 score = minimax(board, 0, -math.inf, math.inf, False)
                 board[i][j] = ' '  # Undo move
-                
+
                 if score > best_score:
                     best_score = score
                     move = (i, j)
-    
-    return move or (0, 0)  # Default to (0,0) if no moves available
+
+    return move or (0, 0)  # Default to (0,0) if no moves available due to lack of analysis
