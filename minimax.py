@@ -1,6 +1,6 @@
 import math
 
-
+  
 scores = {  
             'X':10 ,
             'O': -10 ,
