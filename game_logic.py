@@ -108,22 +108,21 @@ while True:
 initialize_game(game_mode)
 
 if game_mode == "1":
-    
     while True:
         get_player_move()
         display_board()
-        
-        if check_win(PLAYER_SYMBOL):
+        minimax_value = minimax(board, 0, False)
+        if check_win(board) == PLAYER_SYMBOL:
             print("Player wins!")
             break
         elif board_full():
             print("Draw")
             break
-
-        make_ai_move()
+        row, col = best_move(board)
+        board[row][col] = AI_SYMBOL
+        print(f"AI played at: {row} {col}")
         display_board()
-
-        if check_win(AI_SYMBOL):
+        if check_win(board) == AI_SYMBOL:
             print("AI wins!")
             break
         elif board_full():
