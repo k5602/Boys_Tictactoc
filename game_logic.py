@@ -136,10 +136,13 @@ else:
         elif board_full():
             print("Draw")
             break
-        print(input("do you want to continue onuther game?"))
-        if input() == "no":
-            break
-        elif input() == "yes" :
-            
         current_player = 2 if current_player == 1 else 1
-   
+def play_again():
+    while True:
+        choice = input("Do you want to play again? (yes/no): ")
+        if choice == "yes":
+            return True
+        elif choice == "no":
+            return False
+        else:
+            print("Invalid choice. Please enter 'yes' or 'no'.")
