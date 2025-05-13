@@ -64,6 +64,3 @@ def best_move(board):
                
     return move
 
-
-
-
