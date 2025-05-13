@@ -136,4 +136,10 @@ else:
         elif board_full():
             print("Draw")
             break
+        print(input("do you want to continue onuther game?"))
+        if input() == "no":
+            break
+        elif input() == "yes" :
+            
         current_player = 2 if current_player == 1 else 1
+   
