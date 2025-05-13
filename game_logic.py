@@ -1,4 +1,3 @@
-# import random
 from minimax import minimax , best_move , check_win
 
 
@@ -32,28 +31,6 @@ def initialize_game(game_mode):
         print("Player 2 (" + PLAYER2_SYMBOL + ")")
     display_board()
 
-# def check_win(board):
-#     """
-#     Check for a winner or tie on the board.
-#     Returns 'x' if X wins, 'o' if O wins, 'tie' if draw, or None if game ongoing.
-#     """
-#     for i in range(3):
-#         if board[i][0] == board[i][1] == board[i][2] != ' ':
-#             return board[i][0]
-        
-#         if board[0][i] == board[1][i] == board[2][i] != ' ':
-#             return board[0][i]
-        
-#     if board[0][0] == board[1][1] == board[2][2] != ' ':
-#         return board[0][0]
-    
-#     if board[0][2] == board[1][1] == board[2][0] != ' ':
-#         return board[0][2]
-    
-#     for row in board:
-#         if ' ' in row:
-#             return None
-#     return 'tie'
 
 def board_full():
     """check if each board empty or full"""
@@ -84,19 +61,6 @@ def get_player_move(player_symbol="x", player_number=1):
         except ValueError:
             print("Please enter valid numbers.")
 
-# def make_ai_move():
-#     empty_positions = []
-#     for i in range(3):
-#         for j in range(3):
-#             if board[i][j] == " ":
-#                 empty_positions.append((i, j))
-
-#     if empty_positions:
-#         row, col = random.choice(empty_positions)
-#         board[row][col] = AI_SYMBOL
-#         print(f"AI places {AI_SYMBOL} at position ({row}, {col})")
-#     else:
-#         print("No more moves available")
 
 
 while True:
@@ -107,53 +71,65 @@ while True:
 
 initialize_game(game_mode)
 
-if game_mode == "1":
-    while True:
-        get_player_move()
-        display_board()
-        minimax_value = minimax(board, 0, False)
-        if check_win(board) == PLAYER_SYMBOL:
-            print("Player wins!")
-            break
-        elif board_full():
-            print("Draw")
-            break
-        row, col = best_move(board)
-        board[row][col] = AI_SYMBOL
-        print(f"AI played at: {row} {col}")
-        display_board()
-        if check_win(board) == AI_SYMBOL:
-            print("AI wins!")
-            break
-        elif board_full():
-            print("Draw")
-            break
-else:
+def start_game(game_mode):
+    if game_mode == "1":
+        while True:
+            get_player_move()
+            display_board()
+            minimax_value = minimax(board, 0, False)
+            if check_win(board) == PLAYER_SYMBOL:
+                print("Player wins!")
+                play_again(board, game_mode)
 
-    current_player = 1
-    while True:
-        if current_player == 1:
-            get_player_move(PLAYER_SYMBOL, 1)
-            player_symbol = PLAYER_SYMBOL
-        else:
-            get_player_move(PLAYER2_SYMBOL, 2)
-            player_symbol = PLAYER2_SYMBOL
-        
-        display_board()
-        
-        if check_win(player_symbol):
-            print(f"Player {current_player} wins!")
-            break
-        elif board_full():
-            print("Draw")
-            break
-        current_player = 2 if current_player == 1 else 1
-def play_again():
+            elif board_full():
+                print("Draw")
+                play_again(board, game_mode)
+
+            row, col = best_move(board)
+            board[row][col] = AI_SYMBOL
+            print(f"AI played at: {row} {col}")
+            display_board()
+            if check_win(board) == AI_SYMBOL:
+                print("AI wins!")
+                play_again(board, game_mode)
+            elif board_full():
+                print("Draw")
+                play_again(board, game_mode)
+    else:
+
+        current_player = 1
+        while True:
+            if current_player == 1:
+                get_player_move(PLAYER_SYMBOL, 1)
+                player_symbol = PLAYER_SYMBOL
+            else:
+                get_player_move(PLAYER2_SYMBOL, 2)
+                player_symbol = PLAYER2_SYMBOL
+            
+            display_board()
+            
+            if check_win(player_symbol):
+                print(f"Player {current_player} wins!")
+                break
+            elif board_full():
+                print("Draw")
+                break
+            current_player = 2 if current_player == 1 else 1
+
+
+def play_again(board, game_mode):
+    for i in range(3):
+        for j in range(3):
+            board[i][j] = " "
     while True:
         choice = input("Do you want to play again? (yes/no): ")
         if choice == "yes":
-            return True
+            initialize_game(game_mode)
+            start_game(game_mode)
+            continue
         elif choice == "no":
             return False
         else:
             print("Invalid choice. Please enter 'yes' or 'no'.")
+
+start_game(game_mode)
