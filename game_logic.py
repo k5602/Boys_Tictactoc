@@ -76,5 +76,21 @@ def make_ai_move():
     else:
         print("No more moves available")
 
+initialize_game()
 
+while True:
+    get_player_move()
+    display_board()
+    
+    if check_win(PLAYER_SYMBOL):
+        print("PLAYER_SYMBOL Win!")
+        break
+    elif board_full():
+        print("Draw")
+        break
 
+    make_ai_move()
+    display_board()
+
+    if check_win(AI_SYMBOL):
+        print("AI_SYMBOL Win!")
