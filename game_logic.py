@@ -20,18 +20,6 @@ def display_board():
             print(cell, end=" | ")
         print("\n-----------")
 
-def initialize_game(game_mode):
-    """Display welcome message and print empty board"""
-    print("Welcome to Tic Tac Toe game")
-    if game_mode == "1":
-        print("You are Player 1 (" + PLAYER_SYMBOL + ")")
-        print("The AI is (" + AI_SYMBOL + ")")
-    else:
-        print("Player 1 (" + PLAYER_SYMBOL + ")")
-        print("Player 2 (" + PLAYER2_SYMBOL + ")")
-    display_board()
-
-
 def board_full():
     """check if each board empty or full"""
     for row in board:
@@ -61,17 +49,33 @@ def get_player_move(player_symbol="x", player_number=1):
         except ValueError:
             print("Please enter valid numbers.")
 
+def initialize_game(game_mode):
+    """ print empty board"""
+    if game_mode == "1":
+        print("You are Player 1 (" + PLAYER_SYMBOL + ")")
+        print("The AI is (" + AI_SYMBOL + ")")
+    else:
+        print("Player 1 (" + PLAYER_SYMBOL + ")")
+        print("Player 2 (" + PLAYER2_SYMBOL + ")")
+    display_board()
 
-
-while True:
-    game_mode = input("Select game mode:\n1. Player vs AI\n2. Player vs Player\nEnter 1 or 2: ")
-    if game_mode in ["1", "2"]:
-        break
-    print("Invalid choice. Please enter 1 or 2.")
-
-initialize_game(game_mode)
+def play_again(board, game_mode):
+    for i in range(3):
+        for j in range(3):
+            board[i][j] = " "
+    while True:
+        choice = input("Do you want to play again? (yes/no): ")
+        if choice == "y":
+            initialize_game(game_mode)
+            start_game(game_mode)
+            continue
+        elif choice == "n":
+            exit()
+        else:
+            print("Invalid choice. Please enter 'yes' or 'no'.")
 
 def start_game(game_mode):
+    print("Welcome to Tic Tac Toe game")
     if game_mode == "1":
         while True:
             get_player_move()
@@ -96,7 +100,6 @@ def start_game(game_mode):
                 print("Draw")
                 play_again(board, game_mode)
     else:
-
         current_player = 1
         while True:
             if current_player == 1:
@@ -116,20 +119,12 @@ def start_game(game_mode):
                 break
             current_player = 2 if current_player == 1 else 1
 
+# --- Main execution ---
+while True:
+    game_mode = input("Select game mode:\n1. Player vs AI\n2. Player vs Player\nEnter 1 or 2: ")
+    if game_mode in ["1", "2"]:
+        break
+    print("Invalid choice. Please enter 1 or 2.")
 
-def play_again(board, game_mode):
-    for i in range(3):
-        for j in range(3):
-            board[i][j] = " "
-    while True:
-        choice = input("Do you want to play again? (yes/no): ")
-        if choice == "yes":
-            initialize_game(game_mode)
-            start_game(game_mode)
-            continue
-        elif choice == "no":
-            return False
-        else:
-            print("Invalid choice. Please enter 'yes' or 'no'.")
-
+initialize_game(game_mode)
 start_game(game_mode)
