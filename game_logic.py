@@ -48,8 +48,12 @@ def board_full():
 def get_player_move():
     while True:
         try:
-            col = int(input("Enter your column index (0-2): "))
-            row = int(input("Enter your row index (0-2): "))
+            place = input("Enter your index (row then column): ").split()
+            if len(place) != 2:
+                print("Please enter two numbers separated by a space.")
+                continue
+            
+            row , col = int(place[0]) , int(place[1])
 
             if 0 <= row <= 2 and 0 <= col <= 2:
                 if board[row][col] == " ":
@@ -94,3 +98,7 @@ while True:
 
     if check_win(AI_SYMBOL):
         print("AI_SYMBOL Win!")
+        break
+    elif board_full():
+        print("Draw")
+        break
