@@ -1,5 +1,4 @@
-from minimax import minimax, best_move, check_win
-
+from minimax import best_move, check_win
 
 # Initialize global variables
 board = [
@@ -24,14 +23,22 @@ def display_board():
         print("\n-----------")
 
 
-def initialize_game(game_mode):
-    """Display welcome message and print empty board"""
-    # Reset the board
+def reset_board():
+    """Reset the board to empty state"""
     for i in range(3):
         for j in range(3):
             board[i][j] = " "
+
+
+def initialize_game(game_mode):
+    """Display welcome message, reset board and print empty board"""
+    # Reset the board
+    reset_board()
             
     print("\nWelcome to Tic Tac Toe game")
+    print("Board coordinates are from 0-2 for both row and column")
+    print("Example: '1 2' refers to the middle-right position")
+    
     if game_mode == "1":
         print("You are Player 1 (" + PLAYER_SYMBOL + ")")
         print("The AI is (" + AI_SYMBOL + ")")
@@ -49,7 +56,7 @@ def board_full():
     return True
 
 
-def get_player_move(player_symbol="x", player_number=1):
+def get_player_move(player_symbol=PLAYER_SYMBOL, player_number=1):
     """Get and validate the player's move"""
     while True:
         try:
@@ -77,37 +84,14 @@ def play_again():
     """Ask if the player wants to play again and handle the response"""
     while True:
         choice = input("Do you want to play again? (yes/no): ")
-        if choice.lower() == "yes":
+        choice = choice.lower()
+        if choice in ["yes", "y"]:
             return True
-        elif choice.lower() == "no":
+        elif choice in ["no", "n"]:
             return False
         else:
             print("Invalid choice. Please enter 'yes' or 'no'.")
 
-def initialize_game(game_mode):
-    """ print empty board"""
-    if game_mode == "1":
-        print("You are Player 1 (" + PLAYER_SYMBOL + ")")
-        print("The AI is (" + AI_SYMBOL + ")")
-    else:
-        print("Player 1 (" + PLAYER_SYMBOL + ")")
-        print("Player 2 (" + PLAYER2_SYMBOL + ")")
-    display_board()
-
-def play_again(board, game_mode):
-    for i in range(3):
-        for j in range(3):
-            board[i][j] = " "
-    while True:
-        choice = input("Do you want to play again? (yes/no): ")
-        if choice == "y":
-            initialize_game(game_mode)
-            start_game(game_mode)
-            continue
-        elif choice == "n":
-            exit()
-        else:
-            print("Invalid choice. Please enter 'yes' or 'no'.")
 
 def play_player_vs_ai():
     """Handle the Player vs AI game mode"""
@@ -116,19 +100,20 @@ def play_player_vs_ai():
         get_player_move()
         display_board()
         
-        # Check if game is over after player's move
         result = check_win(board)
         if result == PLAYER_SYMBOL:
             print("Player wins!")
             if not play_again():
                 break
-            initialize_game("1")
+            reset_board()
+            display_board()
             continue
         elif board_full():
             print("It's a draw!")
             if not play_again():
                 break
-            initialize_game("1")
+            reset_board()
+            display_board()
             continue
         
         # AI's turn
@@ -138,19 +123,20 @@ def play_player_vs_ai():
         print(f"AI played at: {row} {col}")
         display_board()
         
-        # Check if game is over after AI's move
         result = check_win(board)
         if result == AI_SYMBOL:
             print("AI wins!")
             if not play_again():
                 break
-            initialize_game("1")
+            reset_board()
+            display_board()
             continue
         elif board_full():
             print("It's a draw!")
             if not play_again():
                 break
-            initialize_game("1")
+            reset_board()
+            display_board()
             continue
 
 
@@ -168,69 +154,32 @@ def play_player_vs_player():
         
         display_board()
         
-        # Check if game is over
         result = check_win(board)
         if result == player_symbol:
             print(f"Player {current_player} wins!")
             if not play_again():
-def start_game(game_mode):
-    print("Welcome to Tic Tac Toe game")
-    if game_mode == "1":
-        while True:
-            get_player_move()
-            display_board()
-            minimax_value = minimax(board, 0, False)
-            if check_win(board) == PLAYER_SYMBOL:
-                print("Player wins!")
-                play_again(board, game_mode)
-
-            elif board_full():
-                print("Draw")
-                play_again(board, game_mode)
-
-            row, col = best_move(board)
-            board[row][col] = AI_SYMBOL
-            print(f"AI played at: {row} {col}")
-            display_board()
-            if check_win(board) == AI_SYMBOL:
-                print("AI wins!")
-                play_again(board, game_mode)
-            elif board_full():
-                print("Draw")
-                play_again(board, game_mode)
-    else:
-        current_player = 1
-        while True:
-            if current_player == 1:
-                get_player_move(PLAYER_SYMBOL, 1)
-                player_symbol = PLAYER_SYMBOL
-            else:
-                get_player_move(PLAYER2_SYMBOL, 2)
-                player_symbol = PLAYER2_SYMBOL
-            
-            display_board()
-            
-            if check_win(player_symbol):
-                print(f"Player {current_player} wins!")
                 break
-            initialize_game("2")
+            reset_board()
+            display_board()
             current_player = 1
             continue
         elif board_full():
             print("It's a draw!")
             if not play_again():
                 break
-            initialize_game("2")
+            reset_board()
+            display_board()
             current_player = 1
             continue
         
-        # Switch players
         current_player = 2 if current_player == 1 else 1
 
 
 def main():
     """Main game loop"""
-    # Get game mode from user
+    print("\n=== TIC TAC TOE ===")
+    print("A classic game of Xs and Os\n")
+    
     while True:
         game_mode = input("Select game mode:\n1. Player vs AI\n2. Player vs Player\nEnter 1 or 2: ")
         if game_mode in ["1", "2"]:
@@ -249,15 +198,5 @@ def main():
     print("Thank you for playing!")
 
 
-# Start the game if this script is run directly
 if __name__ == "__main__":
     main()
-# --- Main execution ---
-while True:
-    game_mode = input("Select game mode:\n1. Player vs AI\n2. Player vs Player\nEnter 1 or 2: ")
-    if game_mode in ["1", "2"]:
-        break
-    print("Invalid choice. Please enter 1 or 2.")
-
-initialize_game(game_mode)
-start_game(game_mode)
