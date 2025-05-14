@@ -34,11 +34,12 @@ def initialize_game(game_mode):
     """Display welcome message, reset board and print empty board"""
     # Reset the board
     reset_board()
-            
+
     print("\nWelcome to Tic Tac Toe game")
+    print("Eyh ya Rgola Talbek fy gwla!")
     print("Board coordinates are from 0-2 for both row and column")
     print("Example: '1 2' refers to the middle-right position")
-    
+
     if game_mode == "1":
         print("You are Player 1 (" + PLAYER_SYMBOL + ")")
         print("The AI is (" + AI_SYMBOL + ")")
@@ -65,7 +66,7 @@ def get_player_move(player_symbol=PLAYER_SYMBOL, player_number=1):
             if len(place) != 2:
                 print("Please enter two numbers separated by a space.")
                 continue
-            
+
             row, col = int(place[0]), int(place[1])
 
             if 0 <= row <= 2 and 0 <= col <= 2:
@@ -99,7 +100,7 @@ def play_player_vs_ai():
         # Player's turn
         get_player_move()
         display_board()
-        
+
         result = check_win(board)
         if result == PLAYER_SYMBOL:
             print("Player wins!")
@@ -115,14 +116,14 @@ def play_player_vs_ai():
             reset_board()
             display_board()
             continue
-        
+
         # AI's turn
         print("AI is thinking...")
         row, col = best_move(board)
         board[row][col] = AI_SYMBOL
         print(f"AI played at: {row} {col}")
         display_board()
-        
+
         result = check_win(board)
         if result == AI_SYMBOL:
             print("AI wins!")
@@ -151,9 +152,9 @@ def play_player_vs_player():
         else:
             get_player_move(PLAYER2_SYMBOL, 2)
             player_symbol = PLAYER2_SYMBOL
-        
+
         display_board()
-        
+
         result = check_win(board)
         if result == player_symbol:
             print(f"Player {current_player} wins!")
@@ -171,7 +172,7 @@ def play_player_vs_player():
             display_board()
             current_player = 1
             continue
-        
+
         current_player = 2 if current_player == 1 else 1
 
 
@@ -179,23 +180,23 @@ def main():
     """Main game loop"""
     print("\n=== TIC TAC TOE ===")
     print("A classic game of Xs and Os\n")
-    
+
     while True:
         game_mode = input("Select game mode:\n1. Player vs AI\n2. Player vs Player\nEnter 1 or 2: ")
         if game_mode in ["1", "2"]:
             break
         print("Invalid choice. Please enter 1 or 2.")
-    
+
     # Initialize and start the game
     initialize_game(game_mode)
-    
+
     # Run the appropriate game mode
     if game_mode == "1":
         play_player_vs_ai()
     else:
         play_player_vs_player()
-    
-    print("Thank you for playing!")
+
+    print("Thanks, ya Rgola!")
 
 
 if __name__ == "__main__":

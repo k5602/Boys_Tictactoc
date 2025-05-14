@@ -36,6 +36,8 @@ def minimax(board, depth, alpha, beta, is_maximizing):
     if result is not None:
         return scores[result]
 
+    depth_factor = 1.0 / (depth + 1)
+
     # Get available moves
     available_moves = [(i, j) for i in range(3) for j in range(3) if board[i][j] == ' ']
 
@@ -44,6 +46,8 @@ def minimax(board, depth, alpha, beta, is_maximizing):
         for i, j in available_moves:
             board[i][j] = 'o'  # AI's move
             score = minimax(board, depth + 1, alpha, beta, False)
+            if score > 0:
+                score *= depth_factor
             board[i][j] = ' '  # Undo move
             max_score = max(score, max_score)
             alpha = max(alpha, max_score)
@@ -55,6 +59,8 @@ def minimax(board, depth, alpha, beta, is_maximizing):
         for i, j in available_moves:
             board[i][j] = 'x'  # Player's move
             score = minimax(board, depth + 1, alpha, beta, True)
+            if score < 0:
+                score /= depth_factor
             board[i][j] = ' '  # Undo move
             min_score = min(score, min_score)
             beta = min(beta, min_score)
@@ -82,4 +88,4 @@ def best_move(board):
                     best_score = score
                     move = (i, j)
 
-    return move or (0, 0)  # Default to (0,0) if no moves available due to lack of analysis
+    return move or (1, 1)  # Default to center if no moves available
