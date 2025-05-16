@@ -35,11 +35,6 @@ def initialize_game(game_mode):
     # Reset the board
     reset_board()
 
-    print("\nWelcome to Tic Tac Toe game")
-    print("Eyh ya Rgola Talbek fy gwla!")
-    print("Board coordinates are from 0-2 for both row and column")
-    print("Example: '1 2' refers to the middle-right position")
-
     if game_mode == "1":
         print("You are Player 1 (" + PLAYER_SYMBOL + ")")
         print("The AI is (" + AI_SYMBOL + ")")
@@ -87,7 +82,7 @@ def play_again():
         choice = input("Do you want to play again? (yes/no): ")
         choice = choice.lower()
         if choice in ["yes", "y"]:
-            return True
+            return main()
         elif choice in ["no", "n"]:
             return False
         else:
@@ -179,14 +174,18 @@ def play_player_vs_player():
 def main():
     """Main game loop"""
     print("\n=== TIC TAC TOE ===")
+    print("\nWelcome to Tic Tac Toe game")
     print("A classic game of Xs and Os\n")
-
+    
     while True:
         game_mode = input("Select game mode:\n1. Player vs AI\n2. Player vs Player\nEnter 1 or 2: ")
         if game_mode in ["1", "2"]:
             break
         print("Invalid choice. Please enter 1 or 2.")
 
+    print("\nBoard coordinates are from 0-2 for both row and column")
+    print("Example: '1 2' refers to the middle-right position\n")
+    
     # Initialize and start the game
     initialize_game(game_mode)
 
@@ -196,7 +195,7 @@ def main():
     else:
         play_player_vs_player()
 
-    print("Thanks, ya Rgola!")
+    print("Thanks for playing!")
 
 
 if __name__ == "__main__":
